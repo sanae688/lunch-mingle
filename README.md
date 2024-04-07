@@ -77,6 +77,7 @@ http://localhost:50080/employeeUpdate
 │   ├── Controller.php
 │   ├── DatabaseManager.php
 │   ├── DatabaseModel.php
+│   ├── HttpBadRequestException.php
 │   ├── HttpNotFoundException.php
 │   ├── Request.php
 │   ├── Response.php
