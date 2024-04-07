@@ -28,12 +28,12 @@ class EmployeeUpdateController extends Controller
      * 従業員更新
      *
      * @return string|false ビュー情報
-     * @throws HttpNotFoundException 404エラー
+     * @throws HttpBadRequestException 400エラー
      */
     public function update(): string|false
     {
         if (!$this->request->isPost()) {
-            throw new HttpNotFoundException();
+            throw new HttpBadRequestException();
         }
 
         $employees = [];
@@ -46,12 +46,13 @@ class EmployeeUpdateController extends Controller
             $alerts['employeeId'] = '※従業員IDが重複してます。他の従業員IDを入力して下さい。';
         }
 
-        if (strlen($_POST['employeeName']) > 100) {
+        $escapeEmployeeName = htmlspecialchars($_POST['employeeName'], ENT_QUOTES);
+        if (strlen($escapeEmployeeName) > 100) {
             $alerts['employeeName'] = '※従業員名は100字以内で入力して下さい。';
         }
 
         if (empty($alerts)) {
-            $updateStatus = $employee->update($_POST['employeeId'], $_POST['employeeName'], $_POST['oldEmployeeId']);
+            $updateStatus = $employee->update($_POST['employeeId'], $escapeEmployeeName, $_POST['oldEmployeeId']);
             if ($updateStatus === Status::ERROR) {
                 $alerts['update'] = '※従業員更新に失敗しました。再度更新して下さい。';
             }

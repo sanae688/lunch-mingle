@@ -30,12 +30,12 @@ class EmployeeRegistrationController extends Controller
      * 従業員登録
      *
      * @return string|false ビュー情報
-     * @throws HttpNotFoundException 404エラー
+     * @throws HttpBadRequestException 400エラー
      */
     public function create(): string|false
     {
         if (!$this->request->isPost()) {
-            throw new HttpNotFoundException();
+            throw new HttpBadRequestException();
         }
 
         $employees = [];
@@ -50,12 +50,13 @@ class EmployeeRegistrationController extends Controller
             $alerts['employeeId'] = '※従業員IDが重複してます。他の従業員IDを入力して下さい。';
         }
 
-        if (strlen($_POST['employeeName']) > 100) {
+        $escapeEmployeeName = htmlspecialchars($_POST['employeeName'], ENT_QUOTES);
+        if (strlen($escapeEmployeeName) > 100) {
             $alerts['employeeName'] = '※従業員名は100字以内で入力して下さい。';
         }
 
         if (empty($alerts)) {
-            $createStatus = $employee->insert($_POST['employeeId'], $_POST['employeeName']);
+            $createStatus = $employee->insert($_POST['employeeId'], $escapeEmployeeName);
             if ($createStatus === Status::ERROR) {
                 $alerts['create'] = '※従業員登録に失敗しました。再度登録して下さい。';
             }
@@ -63,7 +64,7 @@ class EmployeeRegistrationController extends Controller
 
         if (!empty($alerts)) {
             $employeeId = $_POST['employeeId'];
-            $employeeName = $_POST['employeeName'];
+            $employeeName = $escapeEmployeeName;
         }
 
         $employees = $employee->fetchAllEmployee();

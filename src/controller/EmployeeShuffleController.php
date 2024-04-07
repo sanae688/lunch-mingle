@@ -30,12 +30,12 @@ class EmployeeShuffleController extends Controller
      * ランチグループ作成
      *
      * @return string|false ビュー情報
-     * @throws HttpNotFoundException 404エラー
+     * @throws HttpBadRequestException 400エラー
      */
     public function create(): string|false
     {
         if (!$this->request->isPost()) {
-            throw new HttpNotFoundException();
+            throw new HttpBadRequestException();
         }
 
         $employeeShuffleGroups = [];

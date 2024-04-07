@@ -47,6 +47,8 @@ class Application
             $controller = $params['controller'];
             $action = $params['action'];
             $this->runAction($controller, $action);
+        } catch (HttpBadRequestException) {
+            $this->render400Page();
         } catch (HttpNotFoundException) {
             $this->render404Page();
         } catch (PDOException) {
@@ -111,6 +113,15 @@ class Application
             '/employeeUpdate' => ['controller' => 'employeeUpdate', 'action' => 'index'],
             '/employeeUpdate/update' => ['controller' => 'employeeUpdate', 'action' => 'update'],
         ];
+    }
+
+    /**
+     * 400エラー画面呼び出し
+     */
+    private function render400Page(): void
+    {
+        $this->response->setStatusCode(400, 'Bad Request');
+        $this->response->setContent(__DIR__ . '/views/error/400BadRequestError.php');
     }
 
     /**

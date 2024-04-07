@@ -44,6 +44,10 @@ docker compose exec app php setup/InitialData.php
 
 **※必ず「環境構築」が完了してから下記実施すること**
 
+**システム概要：**
+
+* 社員同士の交流ため、ランチに行くメンバーをランダムにグループ分けするシステム
+
 ```bash
 # TOP画面(従業員シャッフル画面)
 http://localhost:50080/employeeShuffle
@@ -92,8 +96,9 @@ http://localhost:50080/employeeUpdate
 │   ├── employeeUpdate
 │   │   └── index.php
 │   └── error
-│       ├── 500InternalServerError.php
-│       └── 404NotFoundError.php
+│       ├── 400BadRequestError.php
+│       ├── 404NotFoundError.php
+│       └── 500InternalServerError.php
 ├── web
 │   └── index.php
 │       └── .htaccess

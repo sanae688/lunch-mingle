@@ -8,8 +8,8 @@
  */
 class DatabaseModel
 {
-    /* @var PDO|null データーベース接続情報 */
-    protected PDO|null $dbh;
+    /* @var PDO データーベース接続情報 */
+    protected PDO $dbh;
 
     /**
      * コンストラクタ

@@ -13,8 +13,8 @@
 
 <div class="content">
     <h2>ランチメンバーシャッフル</h2>
-    <form action="/employeeShuffle/create" method="post">
-        <button type="submit">シャッフルする</button>
+    <form name="create" action="/employeeShuffle/create" method="post">
+        <button type="submit" name="submit">シャッフルする</button>
     </form>
 </div>
 
@@ -39,3 +39,12 @@
         </b>
     <?php endif; ?>
 </div>
+
+<script>
+    window.onload = function() {
+        <?php if (empty($employees)) : ?>
+            var elementButton = document.forms.create;
+            elementButton.submit.disabled = true;
+        <?php endif; ?>
+    }
+</script>
